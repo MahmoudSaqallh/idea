@@ -1,26 +1,112 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Variables from the Figma file. */
+@theme {
+  --color-page: #141117;
+  --color-nav: #1c191f;
+  --color-surface: #1a171d;
+  --color-panel: #1f1c22;
+  --color-input: #17141a;
+  --color-chip: #38353b;
+  --color-chip-hover: #4a464e;
+  --color-rating: #2f2329;
+  --color-active: #2c1e22;
+  --color-preview: #29262b;
+  --color-orange: #d4733c;
+  --color-orange-text: #e8894f;
+  --color-sale: #3a2520;
+  --color-primary: #f3f1f4;
+  --color-secondary: #a3a0a7;
+  --color-muted: #6f6b74;
+
+  /* Font sizes with the text heights Figma reports for them. */
+  --text-8-5: 8.5px;
+  --text-8-5--line-height: 11px;
+  --text-9: 9px;
+  --text-9--line-height: 11px;
+  --text-9-5: 9.5px;
+  --text-9-5--line-height: 12px;
+  --text-10-5: 10.5px;
+  --text-10-5--line-height: 13px;
+  --text-11: 11px;
+  --text-11--line-height: 14px;
+  --text-11-5: 11.5px;
+  --text-11-5--line-height: 14px;
+  --text-12: 12px;
+  --text-12--line-height: 15px;
+  --text-13: 13px;
+  --text-13--line-height: 16px;
+  --text-14: 14px;
+  --text-14--line-height: 18px;
+  --text-16: 16px;
+  --text-16--line-height: 20px;
+  --text-17: 17px;
+  --text-17--line-height: 21px;
+  --text-20: 20px;
+  --text-20--line-height: 25px;
+  --text-29: 29px;
+  --text-29--line-height: 37px;
+}
+
+/* Timings from the prototype reactions in Figma. */
+:root {
+  color-scheme: dark;
+  --motion-hover: 200ms ease-out;
+  --motion-nav: 350ms ease-in-out;
+  --motion-reveal: 450ms ease-out;
+}
+
+/* Figma's "While Hovering" variants, also reached by keyboard focus inside the card. */
+@custom-variant card-active {
+  @media (hover: hover) {
+    .product-card:hover & {
+      @slot;
+    }
+  }
+  .product-card:has(:focus-visible) & {
+    @slot;
   }
 }
 
+@utility card-motion {
+  transition:
+    opacity var(--card-motion, var(--motion-hover)),
+    scale var(--card-motion, var(--motion-hover)),
+    background-color var(--card-motion, var(--motion-hover));
+}
+
+@utility panel-motion {
+  transition:
+    opacity var(--panel-motion),
+    filter var(--panel-motion),
+    color var(--panel-motion);
+}
+
+@utility panel-fade {
+  transition: opacity var(--motion-nav);
+}
+
+@utility panel-morph {
+  transition:
+    width var(--motion-nav),
+    height var(--motion-nav),
+    bottom var(--motion-nav),
+    border-radius var(--motion-nav);
+}
+
+/* Keeps glyph spacing unhinted on Windows, matching how Figma renders text. */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  text-rendering: geometricPrecision;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    transition-duration: 1ms !important;
+  }
 }
